@@ -21,31 +21,33 @@ public static int linearSearch(int[] array, int target) {
     return -1;  // Target not found
 }
 
-    // Binary Search Method
-    public static int binarySearch(int[] array, int target) {
-        int left = 0;
-        int right = array.length - 1;
-        int iterations = 0;
+   // Recursive Binary Search Method
+public static int recursiveBinarySearch(int[] array, int target, int left, int right, int iterations) {
+    iterations++; // Increment iteration count
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            iterations++;
-
-            if (array[mid] == target) {
-                System.out.println("Binary search iterations: " + iterations);
-                return mid;
-            }
-
-            if (array[mid] < target) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-
+    if (left > right) {
         System.out.println("Binary search iterations: " + iterations);
         return -1;  // Target not found
     }
+
+    int mid = left + (right - left) / 2;
+
+    if (array[mid] == target) {
+        System.out.println("Binary search iterations: " + iterations);
+        return mid;
+    }
+
+    if (array[mid] < target) {
+        return recursiveBinarySearch(array, target, mid + 1, right, iterations);
+    } else {
+        return recursiveBinarySearch(array, target, left, mid - 1, iterations);
+    }
+}
+
+// Wrapper method to call the recursive binary search
+public static int binarySearch(int[] array, int target) {
+    return recursiveBinarySearch(array, target, 0, array.length - 1, 0);
+}
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
