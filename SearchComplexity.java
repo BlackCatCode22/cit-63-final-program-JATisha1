@@ -8,14 +8,18 @@ import java.util.Scanner;
 public class SearchComplexity {
 
     // Linear Search Method
-    public static int linearSearch(int[] array, int target) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == target) {
-                return i;  // Returns index of found element
-            }
+public static int linearSearch(int[] array, int target) {
+    int iterations = 0; // Initialize iteration count
+    for (int i = 0; i < array.length; i++) {
+        iterations++; // Increment iteration count
+        if (array[i] == target) {
+            System.out.println("Target found at index " + i + " in " + iterations + " iterations.");
+            return i;  // Returns index of found element
         }
-        return -1;  // Target not found
     }
+    System.out.println("Target not found in " + iterations + " iterations.");
+    return -1;  // Target not found
+}
 
     // Binary Search Method
     public static int binarySearch(int[] array, int target) {
