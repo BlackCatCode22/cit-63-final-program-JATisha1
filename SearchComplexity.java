@@ -1,7 +1,3 @@
-// SearchComplexity.java
-// Starter code for final programming assignment in CIT-63 Java Programming Spring 2024
-
-
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -49,50 +45,76 @@ public static int binarySearch(int[] array, int target) {
     return recursiveBinarySearch(array, target, 0, array.length - 1, 0);
 }
 
-public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Enter number of elements in array:");
-    if (scanner.hasNextInt()) {
-        int n = scanner.nextInt();
-        if (n > 0) {
-            int[] array = new int[n];
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter number of elements in array:");
+        if (scanner.hasNextInt()) {
+            int n = scanner.nextInt();
+            if (n > 0) {
+                int[] array = new int[n];
 
-            System.out.println("Enter elements:");
-            for (int i = 0; i < n; i++) {
+                System.out.println("Enter elements:");
+                for (int i = 0; i < n; i++) {
+                    if (scanner.hasNextInt()) {
+                        array[i] = scanner.nextInt();
+                    } else {
+                        System.out.println("Invalid input. Please enter an integer.");
+                        scanner.close();
+                        return;
+                    }
+                }
+
+                System.out.println("Enter target number to search:");
                 if (scanner.hasNextInt()) {
-                    array[i] = scanner.nextInt();
+                    int target = scanner.nextInt();
+
+                    // Linear Search
+                    long linearStartTime = System.nanoTime();
+                    int linearResult = linearSearch(array, target);
+                    long linearEndTime = System.nanoTime();
+                    long linearExecutionTime = linearEndTime - linearStartTime;
+                    System.out.println((linearResult == -1) ? "Target not found by linear search." :
+                            "Target found by linear search at index: " + linearResult);
+                    System.out.println("Linear search execution time: " + linearExecutionTime + " nanoseconds");
+
+                    // Binary Search (Array must be sorted)
+                    Arrays.sort(array);
+                    long binaryStartTime = System.nanoTime();
+                    int binaryResult = binarySearch(array, target);
+                    long binaryEndTime = System.nanoTime();
+                    long binaryExecutionTime = binaryEndTime - binaryStartTime;
+                    System.out.println((binaryResult == -1) ? "Target not found by binary search." :
+                            "Target found by binary search at index: " + binaryResult);
+                    System.out.println("Binary search execution time: " + binaryExecutionTime + " nanoseconds");
+
+                    // Performance comparison for different target positions
+                    int[] targetPositions ={0, n / 2, n - 1};
+                    for (int pos : targetPositions) {
+                        array[pos] = target;
+                        linearStartTime = System.nanoTime();
+                        linearResult = linearSearch(array, target);
+                        linearEndTime = System.nanoTime();
+                        linearExecutionTime = linearEndTime - linearStartTime;
+
+                        binaryStartTime = System.nanoTime();
+                        binaryResult = binarySearch(array, target);
+                        binaryEndTime = System.nanoTime();
+                        binaryExecutionTime = binaryEndTime - binaryStartTime;
+
+                        System.out.println("Target at position " + pos + ":");
+                        System.out.println("Linear search execution time: " + linearExecutionTime + " nanoseconds");
+                        System.out.println("Binary search execution time: " + binaryExecutionTime + " nanoseconds");
+                    }
                 } else {
                     System.out.println("Invalid input. Please enter an integer.");
-                    scanner.close();
-                    return;
                 }
-            }
-
-            System.out.println("Enter target number to search:");
-            if (scanner.hasNextInt()) {
-                int target = scanner.nextInt();
-
-                // Linear Search
-                int linearResult = linearSearch(array, target);
-                System.out.println((linearResult == -1) ? "Target not found by linear search." :
-                        "Target found by linear search at index: " + linearResult);
-
-                // Binary Search (Array must be sorted)
-                Arrays.sort(array);
-                int binaryResult = binarySearch(array, target);
-                System.out.println((binaryResult == -1) ? "Target not found by binary search." :
-                        "Target found by binary search at index: " + binaryResult);
             } else {
-                System.out.println("Invalid input. Please enter an integer.");
+                System.out.println("Invalid input. Array size must be greater than zero.");
             }
         } else {
-            System.out.println("Invalid input. Array size must be greater than zero.");
+            System.out.println("Invalid input. Please enter an integer.");
         }
-    } else {
-        System.out.println("Invalid input. Please enter an integer.");
+
+        scanner.close();
     }
-
-    scanner.close();
 }
-}
-
