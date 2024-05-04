@@ -49,33 +49,50 @@ public static int binarySearch(int[] array, int target) {
     return recursiveBinarySearch(array, target, 0, array.length - 1, 0);
 }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter number of elements in array:");
+public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Enter number of elements in array:");
+    if (scanner.hasNextInt()) {
         int n = scanner.nextInt();
-        int[] array = new int[n];
+        if (n > 0) {
+            int[] array = new int[n];
 
-        System.out.println("Enter elements:");
-        for (int i = 0; i < n; i++) {
-            array[i] = scanner.nextInt();
+            System.out.println("Enter elements:");
+            for (int i = 0; i < n; i++) {
+                if (scanner.hasNextInt()) {
+                    array[i] = scanner.nextInt();
+                } else {
+                    System.out.println("Invalid input. Please enter an integer.");
+                    scanner.close();
+                    return;
+                }
+            }
+
+            System.out.println("Enter target number to search:");
+            if (scanner.hasNextInt()) {
+                int target = scanner.nextInt();
+
+                // Linear Search
+                int linearResult = linearSearch(array, target);
+                System.out.println((linearResult == -1) ? "Target not found by linear search." :
+                        "Target found by linear search at index: " + linearResult);
+
+                // Binary Search (Array must be sorted)
+                Arrays.sort(array);
+                int binaryResult = binarySearch(array, target);
+                System.out.println((binaryResult == -1) ? "Target not found by binary search." :
+                        "Target found by binary search at index: " + binaryResult);
+            } else {
+                System.out.println("Invalid input. Please enter an integer.");
+            }
+        } else {
+            System.out.println("Invalid input. Array size must be greater than zero.");
         }
-
-        System.out.println("Enter target number to search:");
-        int target = scanner.nextInt();
-
-        // Linear Search
-        int linearResult = linearSearch(array, target);
-        System.out.println((linearResult == -1) ? "Target not found by linear search." :
-                "Target found by linear search at index: " + linearResult);
-
-        // Binary Search (Array must be sorted)
-        Arrays.sort(array);
-        int binaryResult = binarySearch(array, target);
-        System.out.println((binaryResult == -1) ? "Target not found by binary search." :
-                "Target found by binary search at index: " + binaryResult);
-
-        scanner.close();
+    } else {
+        System.out.println("Invalid input. Please enter an integer.");
     }
-}
 
+    scanner.close();
+}
+}
 
